@@ -8,19 +8,16 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const bcrypt = require("bcrypt");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 dotenv.config();
 
 const app = express();
 
 // Configure AWS SDK
-const s3 = new S3Client({
+const s3 = new aws.S3({
     region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    }
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 // Configure PostgreSQL
@@ -55,21 +52,16 @@ app.use((req, res, next) => {
 });
 
 // Set up multer storage for S3
-// Configure multer for S3
 const upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: process.env.S3_BUCKET_NAME,
-        acl: 'public-read',
         key: function (req, file, cb) {
             const filename = Date.now() + path.extname(file.originalname);
             cb(null, filename);
         },
-         // Remove or set acl to undefined
-        acl: undefined // or acl: null
     })
 });
-
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'public')));
