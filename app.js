@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: process.env.S3_BUCKET_NAME,
+        bucket: process.env.AWS_BUCKET_NAME,
         acl: 'public-read',
         key: function (req, file, cb) {
             const filename = Date.now() + path.extname(file.originalname);
