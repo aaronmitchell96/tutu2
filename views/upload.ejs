@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .suggestions {
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestions div {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .suggestions div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script>
+        let existingHatTypes = [];
+
+        function showDropdowns() {
+            var category = document.getElementById("category").value;
+            var hatDiv = document.getElementById("hatDiv");
+            var accessoryDiv = document.getElementById("accessoryDiv");
+            var genderDiv = document.getElementById("genderDiv");
+
+            hatDiv.style.display = "none";
+            accessoryDiv.style.display = "none";
+            genderDiv.style.display = "none";
+
+            if (category === "hat") {
+                hatDiv.style.display = "block";
+                genderDiv.style.display = "block";
+            } else if (category === "accessory") {
+                accessoryDiv.style.display = "block";
+            }
+        }
+
+        function enableRelevantInputs() {
+            var category = document.getElementById("category").value;
+
+            // Disable all relevant inputs
+            document.getElementById("accessoryType").disabled = true;
+            document.getElementById("hatType").disabled = true;
+            document.getElementById("gender").disabled = true;
+
+            if (category === "hat") {
+                document.getElementById("gender").disabled = false;
+                document.getElementById("hatType").disabled = false;
+            } else if (category === "accessory") {
+                document.getElementById("accessoryType").disabled = false;
+            }
+        }
+
+        function addSizeQuantity() {
+            const sizeQuantityDiv = document.getElementById("sizeQuantityDiv");
+
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("size-quantity-pair");
+
+            const sizeInput = document.createElement("input");
+            sizeInput.type = "text";
+            sizeInput.name = "sizes[]";
+            sizeInput.placeholder = "Size";
+            sizeInput.required = true;
+
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.name = "quantities[]";
+            quantityInput.placeholder = "Quantity";
+            quantityInput.min = "1";
+            quantityInput.required = true;
+
+            newDiv.appendChild(sizeInput);
+            newDiv.appendChild(quantityInput);
+
+            sizeQuantityDiv.appendChild(newDiv);
+        }
+
+        function filterHatTypes() {
+            const input = document.getElementById("hatType");
+            const filter = input.value.toLowerCase();
+            const suggestions = document.getElementById("hatTypeSuggestions");
+
+            // Clear any previous suggestions
+            suggestions.innerHTML = '';
+
+            if (filter) {
+                existingHatTypes
+                    .filter(hatType => hatType.toLowerCase().includes(filter))
+                    .forEach(hatType => {
+                        const div = document.createElement("div");
+                        div.textContent = hatType;
+                        div.onclick = function() {
+                            input.value = hatType;
+                            suggestions.innerHTML = '';
+                            suggestions.style.display = 'none';
+                        };
+                        suggestions.appendChild(div);
+                    });
+
+                suggestions.style.display = suggestions.children.length > 0 ? 'block' : 'none';
+            } else {
+                suggestions.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <%- include('navbar') %>
+    <div class="main-content">
+        <h1>Upload an Image</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data" onsubmit="enableRelevantInputs()">
+
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category" onchange="showDropdowns()" required>
+                    <option value="">Select</option>
+                    <option value="hat">Hat</option>
+                    <option value="accessory">Accessory</option>
+                </select>
+            </div>
+
+            <div id="hatDiv" style="display:none;">
+                <div id="genderDiv">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select</option>
+                        <option value="men">Men</option>
+                        <option value="women">Women</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="hatType">Type of Hat:</label>
+                    <input type="text" id="hatType" name="hatType" onkeyup="filterHatTypes()">
+                    <div id="hatTypeSuggestions" class="suggestions"></div>
+                </div>
+            </div>
+
+            <div id="accessoryDiv" style="display:none;">
+                <label for="accessoryType">Type of Accessory:</label>
+                <input type="text" id="accessoryType" name="accessoryType">
+            </div>
+
+            <div>
+                <label for="color">Color:</label>
+                <input type="text" id="color" name="color" required>
+            </div>
+
+            <div>
+                <label for="details">Details:</label>
+                <input type="text" id="details" name="details">
+            </div>
+
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" min="0" step="0.01" required>
+            </div>
+
+            <div id="sizeQuantityDiv">
+                <label>Sizes and Quantities:</label>
+                <div class="size-quantity-pair">
+                    <input type="text" name="sizes[]" placeholder="Size" required>
+                    <input type="number" name="quantities[]" placeholder="Quantity" min="1" required>
+                </div>
+            </div>
+            <button type="button" onclick="addSizeQuantity()">Add Size and Quantity</button>
+            
+            <div>
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" required />
+            </div>
+
+            <button type="submit">Upload</button>
+        </form>
+        <a href="/gallery">Go to Gallery</a>
+    </div>
+    <script>
+        // This script fetches the existing hat types from the server
+        fetch('/hat-types')
+            .then(response => response.json())
+            .then(data => {
+                existingHatTypes = data;
+            })
+            .catch(error => console.error('Error fetching hat types:', error));
+    </script>
+</body>
+</html>
