@@ -96,4 +96,66 @@ body {
     filter: blur(5px);
 }
 
-/* Filter bar styles 
+/* Cart Toolbar */
+#cart-tab {
+    width: 400px;
+    background-color: black;
+    color: #eee;
+    position: fixed;
+    top: 60px; /* Adjust this value based on your navbar height */
+    right: 0;
+    bottom: 0;
+    transition: transform 0.3s ease;
+    transform: translateX(100%); /* Hide by default */
+    z-index: 999; /* Lower than navbar but higher than main content */
+}
+
+#cart-tab.active {
+    transform: translateX(0); /* Show the cart toolbar */
+}
+
+/* Other styles for the cart content */
+.cart-toolbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #444;
+    border-bottom: 1px solid #333;
+}
+
+.cart-toolbar-header h2 {
+    margin: 0;
+}
+
+.cart-toolbar-header button {
+    background: none;
+    border: none;
+    color: #eee;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    border-bottom: 1px solid #333;
+}
+
+.cart-item img {
+    width: 50px;
+    height: auto;
+    margin-right: 1em;
+}
+
+.cart-item p {
+    margin: 0;
+}
+
+#cartTotal {
+    padding: 1em;
+    font-size: 1.2em;
+    text-align: right;
+    border-top: 1px solid #333;
+}

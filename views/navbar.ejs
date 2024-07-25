@@ -21,9 +21,29 @@
             <% } else { %>
                 <a href="/login" class="<%= activePage === 'login' ? 'active' : '' %>">Login</a>
             <% } %>
+            <a href="#" id="cartIcon" onclick="toggleCartToolbar()">Cart</a>
         </div>
     </div>
 
+    <!-- Cart Toolbar -->
+<div id="cart-tab" class="cart-toolbar">
+    <div class="cart-toolbar-header">
+        <h2>Your Cart</h2>
+        <button onclick="toggleCartToolbar()">Close</button>
+    </div>
+    <div id="cartItems"></div>
+    <div id="cartTotal"></div>
+</div>
+    <script src="/scripts/addToCart.js"></script>
+    <script>
+        function toggleCartToolbar() {
+            const toolbar = document.getElementById('cart-tab');
+            toolbar.classList.toggle('active');
+            if (toolbar.classList.contains('active')) {
+                displayCartItems();
+            }
+        }
+    </script>
     <script>
         function toggleMenu() {
             var navbarLinks = document.getElementById("navbarLinks");

@@ -28,7 +28,8 @@
     <div class="main-content">
         <h1>Image Details</h1>
         <div>
-            <img src="<%= image.path %>" alt="Image" style="width: 400px; height: auto;" />
+            <img id="productImage" src="<%= image.path %>" alt="Image" style="width: 400px; height: auto;" />
+            <button id="addToCartButton">Add to Cart</button>
             <% if (parentImage || childImages.length > 0) { %>
                 <h2>Related Images</h2>
                 <div class="thumbnail-container">
@@ -46,12 +47,12 @@
                     <% }); %>
                 </div>
             <% } %>
-            <p>Name: <%= image.name %></p>
+            <p id="productName">Name: <%= image.name %></p>
             <p>Uploaded At: <%= image.uploaded_at %></p>
             <p>Category: <%= image.category %></p>
             <p>Gender: <%= image.gender %></p>
             <p>Type: <%= image.type %></p>
-            <p>Price: <%= image.price %></p>
+            <label>Price: $</label><p id="productPrice"> <%= image.price %></p>
             <p>Color: <%= image.color %></p>
             <p>Details: <%= image.details %></p>
 
@@ -75,5 +76,6 @@
         </div>
         <a href="/gallery">Back to Gallery</a>
     </div>
+    <script src='/scripts/addToCart.js' ></script>
 </body>
 </html>
