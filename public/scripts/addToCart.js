@@ -5,6 +5,7 @@ function addToCart(product) {
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
+    toggleCartToolbar();
 }
 
 function displayCartItems() {
@@ -52,4 +53,12 @@ function handleAddToCart() {
     };
     console.log('Product to add:', product); // Debugging log
     addToCart(product);
+}
+
+function toggleCartToolbar() {
+    const toolbar = document.getElementById('cart-tab');
+    toolbar.classList.toggle('active');
+    if (toolbar.classList.contains('active')) {
+        displayCartItems();
+    }
 }
