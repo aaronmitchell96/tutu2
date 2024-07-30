@@ -76,7 +76,7 @@ body {
 /* Cart Toolbar */
 #cart-tab {
     width: 400px;
-    background-color: rgba(255, 255, 255); /* Translucent white */
+    background-color: rgba(255, 255, 255, 1); /* Translucent white */
     color: #000; /* Text color changed to black for better contrast */
     position: fixed;
     top: 60px; /* Adjust this value based on your navbar height */
@@ -123,11 +123,7 @@ body {
         transition: 0.3s;
     }
 
-    .navbar-links-overlay a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
+    .navbar-links-overlay a:hover,
     .navbar-links-overlay a.active {
         background-color: #4CAF50;
         color: white;
@@ -142,17 +138,11 @@ body {
         top: 20px;
         right: 45px;
         font-size: 40px;
-        color: #fff;
-        display: block; /* Ensure it's visible on mobile */
     }
 
-    .navbar #cartIcon {
-        display: none; /* Hide cart icon in the main navbar on mobile */
-    }
-
-    .navbar-links-overlay #cartIconOverlay {
-        font-size: 30px; /* Adjust icon size if needed */
-        margin-top: 20px;
+    #cartIcon {
+        order: 2;
+        margin-left: auto; /* Ensure the cart icon is on the right */
     }
 
     #cart-tab {
@@ -180,14 +170,6 @@ body {
     .navbar-links-overlay a {
         padding: 14px 16px;
         font-size: 16px;
-    }
-
-    .navbar .hamburger {
-        display: none; /* Hide hamburger menu on desktop */
-    }
-
-    .closebtn {
-        display: none; /* Hide close button on desktop */
     }
 
     #cart-tab.active {
