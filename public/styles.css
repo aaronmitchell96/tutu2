@@ -1,4 +1,3 @@
-/* styles.css */
 body {
     font-family: Arial, sans-serif;
 }
@@ -7,11 +6,13 @@ body {
     background-color: #333;
     overflow: hidden;
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .navbar a {
-    float: left;
-    display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
@@ -29,19 +30,18 @@ body {
 }
 
 .navbar .navbar-username {
-    float: right;
     color: white;
     padding: 14px 16px;
 }
 
 .navbar .hamburger {
-    display: none;
     font-size: 30px;
     background: none;
     border: none;
     color: white;
     padding: 14px 16px;
     cursor: pointer;
+    display: none; /* Hide by default */
 }
 
 .thumbnail {
@@ -61,57 +61,147 @@ body {
     filter: blur(5px);
 }
 
-/* Mobile styles */
-@media (max-width: 600px) {
-    .navbar a {
-        float: none;
-        width: 100%;
-        text-align: left;
-        padding: 10px;
-    }
-
-    .navbar .navbar-username {
-        float: none;
-        width: 100%;
-        text-align: left;
-        padding: 10px;
-        border-top: 1px solid #f2f2f2;
-    }
-
-    .navbar .hamburger {
-        display: block;
-    }
-
-    .navbar-links {
-        display: none;
-        flex-direction: column;
-    }
-
-    .navbar-links.show {
-        display: flex;
-    }
-}
-
 .blur {
     filter: blur(5px);
+}
+
+.navbar #cartIcon {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    order: 2; /* Ensure cart icon is last */
+    margin-left: auto;
 }
 
 /* Cart Toolbar */
 #cart-tab {
     width: 400px;
-    background-color: black;
-    color: #eee;
+    background-color: rgba(255, 255, 255); /* Translucent white */
+    color: #000; /* Text color changed to black for better contrast */
     position: fixed;
     top: 60px; /* Adjust this value based on your navbar height */
     right: 0;
     bottom: 0;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.5s ease; /* Slide for desktop, opacity for mobile */
     transform: translateX(100%); /* Hide by default */
+    opacity: 0; /* Hide by default */
+    pointer-events: none; /* Prevent interaction when hidden */
     z-index: 999; /* Lower than navbar but higher than main content */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Make the cart content scrollable */
 }
 
-#cart-tab.active {
-    transform: translateX(0); /* Show the cart toolbar */
+/* Adjust for mobile devices */
+@media (max-width: 768px) {
+    .navbar .hamburger {
+        display: block; /* Show on mobile */
+    }
+
+    .navbar-links-overlay {
+        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        overflow-x: hidden;
+        transition: 0.5s;
+        z-index: 1000;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navbar-links-overlay a {
+        padding: 20px;
+        font-size: 25px;
+        color: #f2f2f2;
+        text-align: center;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .navbar-links-overlay a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    .navbar-links-overlay a.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .navbar-links-overlay.show {
+        display: flex;
+    }
+
+    .closebtn {
+        position: absolute;
+        top: 20px;
+        right: 45px;
+        font-size: 40px;
+        color: #fff;
+        display: block; /* Ensure it's visible on mobile */
+    }
+
+    .navbar #cartIcon {
+        display: none; /* Hide cart icon in the main navbar on mobile */
+    }
+
+    .navbar-links-overlay #cartIconOverlay {
+        font-size: 30px; /* Adjust icon size if needed */
+        margin-top: 20px;
+    }
+
+    #cart-tab {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        right: 0;
+        left: 0;
+        transform: none; /* No sliding on mobile */
+        transition: opacity 0.5s ease; /* Opacity transition for appearance */
+    }
+
+    #cart-tab.active {
+        opacity: 1; /* Fully visible when active */
+        pointer-events: auto; /* Enable interaction */
+    }
+}
+
+/* Desktop specific styles */
+@media (min-width: 769px) {
+    .navbar-links-overlay {
+        display: flex;
+    }
+
+    .navbar-links-overlay a {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+
+    .navbar .hamburger {
+        display: none; /* Hide hamburger menu on desktop */
+    }
+
+    .closebtn {
+        display: none; /* Hide close button on desktop */
+    }
+
+    #cart-tab.active {
+        transform: translateX(0); /* Slide in for desktop */
+        opacity: 1; /* Ensure it is visible */
+        pointer-events: auto; /* Enable interaction */
+    }
+}
+
+/* Container for cart items */
+#cartItems {
+    flex: 1; /* Take up available space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Optional: add some padding */
 }
 
 /* Other styles for the cart content */

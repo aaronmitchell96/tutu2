@@ -1,15 +1,18 @@
-<!-- navbar.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Navbar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome CDN link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Your custom styles -->
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="navbar">
         <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
-        <div class="navbar-links" id="navbarLinks">
+        <div class="navbar-links-overlay" id="navbarLinks">
+            <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
             <a href="/" class="<%= activePage === 'home' ? 'active' : '' %>">Home</a>
             <a href="/gallery" class="<%= activePage === 'gallery' ? 'active' : '' %>">Gallery</a>
             <% if (user) { %>
@@ -21,26 +24,25 @@
             <% } else { %>
                 <a href="/login" class="<%= activePage === 'login' ? 'active' : '' %>">Login</a>
             <% } %>
-            <a href="#" id="cartIcon" onclick="toggleCartToolbar()">Cart</a>
         </div>
+        <i href="#" id="cartIcon" onclick="toggleCartToolbar()" class="fas fa-shopping-cart fa-2x"></i>
     </div>
 
     <!-- Cart Toolbar -->
-<div id="cart-tab" class="cart-toolbar">
-    <div class="cart-toolbar-header">
-        <h2>Your Cart</h2>
-        <button onclick="toggleCartToolbar()">Close</button>
+    <div id="cart-tab" class="cart-toolbar">
+        <div class="cart-toolbar-header">
+            <h2>Your Cart</h2>
+            <button onclick="toggleCartToolbar()">Close</button>
+        </div>
+        <div id="cartItems"></div>
+        <div id="cartTotal"></div>
     </div>
-    <div id="cartItems"></div>
-    <div id="cartTotal"></div>
-</div>
+
     <script src="/scripts/addToCart.js"></script>
     <script>
         function toggleMenu() {
-            var navbarLinks = document.getElementById("navbarLinks");
-            var content = document.querySelector(".main-content");
-            navbarLinks.classList.toggle("show");
-            content.classList.toggle("blur");
+            const navbarLinks = document.getElementById('navbarLinks');
+            navbarLinks.classList.toggle('show');
         }
     </script>
 </body>
