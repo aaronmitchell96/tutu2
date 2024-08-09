@@ -26,10 +26,12 @@ closeCart.addEventListener('click', () => {
                 newProduct.dataset.id = product.id;
                 newProduct.classList.add('item');
                 newProduct.innerHTML = 
-                `<img src="${product.path}" alt="">
-                <h2>${product.name}</h2>
-                <div class="price">$${product.price}</div>
-                <button class="addCart">Add To Cart</button>`;
+                ` <a href="/image/${product.id}">
+                  <img src="${product.path}" alt="${product.name}">
+                  <h2>${product.name}</h2>
+                  <div class="price">$${product.price}</div>
+                  </a>
+                  <button class="addCart">Add To Cart</button>`;
                 listProductHTML.appendChild(newProduct);
             });
         }
