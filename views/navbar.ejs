@@ -14,7 +14,7 @@
         <div class="navbar-links-overlay" id="navbarLinks">
             <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
             <a href="/" class="<%= activePage === 'home' ? 'active' : '' %>">Home</a>
-            <a href="/gallery" class="<%= activePage === 'gallery' ? 'active' : '' %>">Gallery</a>
+            <a href="/gallery" class="<%= activePage === 'gallery' ? 'active' : '' %>">Shop</a>
             <% if (user) { %>
                 <% if (user.role === 'admin') { %>
                     <a href="/upload" class="<%= activePage === 'upload' ? 'active' : '' %>">Upload</a>
@@ -26,20 +26,13 @@
             <% } %>
         </div>
         <a href="/" class="navbar-logo"><img src="/images/logo.png" alt="Logo"></a>
-        <i href="#" id="cartIcon" onclick="toggleCartToolbar()" class="fas fa-shopping-cart fa-2x"></i>
-    </div>
-
-    <!-- Cart Toolbar -->
-    <div id="cart-tab" class="cart-toolbar">
-        <div class="cart-toolbar-header">
-            <h2>Your Cart</h2>
-            <button onclick="toggleCartToolbar()">Close</button>
+        <div class="icon-cart">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
+            </svg>
+            <span>0</span>
         </div>
-        <div id="cartItems"></div>
-        <div id="cartTotal"></div>
     </div>
-
-    <script src="/scripts/addToCart.js"></script>
     <script>
         function toggleMenu() {
             const navbarLinks = document.getElementById('navbarLinks');

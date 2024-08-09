@@ -181,6 +181,16 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     }
 });
 
+app.get('/api/hats', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT id, name, price, path FROM images');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching hats data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // Route to render the gallery page
 app.get("/gallery", async (req, res) => {
     const { category, gender, hatType, accessoryType, color, minPrice, maxPrice } = req.query;
@@ -366,6 +376,10 @@ app.post("/image/:id/delete", requireAdmin, async (req, res) => {
     await pool.query('DELETE FROM images WHERE id = $1', [req.params.id]);
     res.redirect("/gallery");
 });
+
+app.get("/testpp", async (req, res) => {
+    res.render("./testpp/index")
+})
 
 // Start server on the port defined by Heroku
 const PORT = process.env.PORT || 3001;

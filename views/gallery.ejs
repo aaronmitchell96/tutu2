@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Gallery</title>
+    <title>Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/styles.css">
     <script>
@@ -29,32 +29,27 @@
         };
     </script>
 </head>
-<body>
-    <%- include('navbar') %>
-    <div class="main-content">
-        <h1>Image Gallery</h1>
-
-        <%- include('filter-bar') %>
-
-        <div>
-            <% images.forEach(function(image) { %>
-                <div>
-                    <a href="/image/<%= image.id %>">
-                        <img src="<%= image.path %>" alt="Image" style="width: 200px; height: auto;" />
-                    </a>
-                    <% if (image.children && image.children.length > 0) { %>
-                        <div class="thumbnail-container">
-                            <% image.children.forEach(function(childImage) { %>
-                                <a href="/image/<%= childImage.id %>">
-                                    <img src="<%= childImage.path %>" alt="Image" class="thumbnail" />
-                                </a>
-                            <% }); %>
-                        </div>
-                    <% } %>
-                </div>
-            <% }); %>
+    <body class="">
+        <%- include('navbar') %>
+        <div class="container">
+            <header>
+                <div class="title">PRODUCT LIST</div>
+            </header>
+            <div class="listProduct">
+    
+            </div>
         </div>
-        <a href="/upload">Upload More Images</a>
-    </div>
-</body>
+        <div class="cartTab">
+            <h1>Shopping Cart</h1>
+            <div class="listCart">
+                
+            </div>
+            <div class="btn">
+                <button class="close">CLOSE</button>
+                <button class="checkOut">Check Out</button>
+            </div>
+        </div>
+    
+        <script src="/scripts/shop.js"></script>
+    </body>
 </html>
