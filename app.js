@@ -183,7 +183,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
 app.get('/api/hats', async (req, res) => {
     try {
-        const result = await pool.query('SELECT id, name, price, path FROM images');
+        const result = await pool.query('SELECT id, name, price, path, parent_id, color FROM images');
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching hats data:', error);

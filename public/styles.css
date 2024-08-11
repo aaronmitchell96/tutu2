@@ -304,9 +304,11 @@ header{
 .title{
     font-size: xx-large;
 }
-.listProduct .item img{
-    width: 90%;
-    /* filter: drop-shadow(0 50px 20px #0009); */
+.listProduct .item img {
+    width: 150px; /* or any size you prefer */
+    height: 150px;
+    object-fit: cover; /* ensures the image covers the specified dimensions */
+    border-radius: 10px; /* optional: gives the images slightly rounded corners */
 }
 .listProduct{
     display: grid;
@@ -418,4 +420,43 @@ body.showCart .container{
     .listProduct{
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* Style for parent images */
+.parent-img {
+    width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Style for thumbnails */
+.thumbnail-img {
+    width: 40px !important;
+    height: auto !important;
+    margin: 5px !important;
+    border-radius: 50%;
+}
+
+
+/* Thumbnail container to arrange thumbnails */
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.color-circle-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px;
+    border: 2px solid #fff; /* Optional: Add border for better visibility */
 }

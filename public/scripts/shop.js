@@ -15,27 +15,73 @@ closeCart.addEventListener('click', () => {
     body.classList.toggle('showCart');
 })
 
-    const addDataToHTML = () => {
-    // remove datas default from HTML
+const addDataToHTML = () => {
+    // Remove default data from HTML
+    listProductHTML.innerHTML = '';
 
-        // add new datas
-        if(products.length > 0) // if has data
-        {
-            products.forEach(product => {
+    // Add new data
+    if (products.length > 0) { // if there is data
+        products.forEach(product => {
+            if (!product.parent_id) {
+                // If the product is a parent, create a new product item
                 let newProduct = document.createElement('div');
                 newProduct.dataset.id = product.id;
                 newProduct.classList.add('item');
                 newProduct.innerHTML = 
-                ` <a href="/image/${product.id}">
-                  <img src="${product.path}" alt="${product.name}">
-                  <h2>${product.name}</h2>
-                  <div class="price">$${product.price}</div>
-                  </a>
-                  <button class="addCart">Add To Cart</button>`;
+                `<a href="/image/${product.id}">
+                    <img src="${product.path}" alt="${product.name}" class="parent-img">
+                    <h2>${product.name}</h2>
+                    <div class="price">$${product.price}</div>
+                 </a>
+                 <div class="color-circle-container"></div> <!-- Updated to ensure container exists -->
+                 <button class="addCart">Add To Cart</button>`;
                 listProductHTML.appendChild(newProduct);
-            });
-        }
+            } else {
+                // If the product is a child, append it as a color circle to the parent
+                let parentElement = document.querySelector(`[data-id="${product.parent_id}"]`);
+                if (parentElement) {
+                    let colorCircleContainer = parentElement.querySelector('.color-circle-container');
+
+                    // Create the color circle
+                    let colorCircle = document.createElement('div');
+                    colorCircle.classList.add('color-circle');
+                    colorCircle.style.backgroundColor = product.color; // Set the background color of the circle
+                    colorCircle.dataset.childImage = product.path; // Store the path of the child image
+                    colorCircle.dataset.parentImage = parentElement.querySelector('.parent-img').src; // Store the path of the parent image
+                    colorCircle.dataset.parentId = product.parent_id; // Store the parent ID
+
+                    // Add hover effect to change the main image
+                    colorCircle.addEventListener('mouseover', function() {
+                        let mainImage = parentElement.querySelector('.parent-img');
+                        if (mainImage) {
+                            mainImage.src = this.dataset.childImage;
+                        }
+                    });
+
+                    // Add mouseout effect to revert to the parent image
+                    colorCircle.addEventListener('mouseout', function() {
+                        let mainImage = parentElement.querySelector('.parent-img');
+                        if (mainImage) {
+                            mainImage.src = this.dataset.parentImage;
+                        }
+                    });
+
+                    // Ensure color circle container exists
+                    if (!colorCircleContainer) {
+                        colorCircleContainer = document.createElement('div');
+                        colorCircleContainer.classList.add('color-circle-container');
+                        parentElement.appendChild(colorCircleContainer);
+                    }
+                    colorCircleContainer.appendChild(colorCircle);
+                }
+            }
+        });
     }
+};
+
+
+
+
     listProductHTML.addEventListener('click', (event) => {
         let positionClick = event.target;
         if(positionClick.classList.contains('addCart')){
