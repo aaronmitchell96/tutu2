@@ -1,4 +1,4 @@
-let listProductHTML = document.querySelector('.listProduct');
+let listProductHTML = document.querySelector('.listProduct') || '';
 let listCartHTML = document.querySelector('.listCart');
 let iconCart = document.querySelector('.icon-cart');
 let iconCartSpan = document.querySelector('.icon-cart span');
@@ -35,7 +35,9 @@ const addDataToHTML = () => {
                  </a>
                  <div class="color-circle-container"></div> <!-- Updated to ensure container exists -->
                  <button class="addCart">Add To Cart</button>`;
-                listProductHTML.appendChild(newProduct);
+                if (listProductHTML != ''){
+                    listProductHTML.appendChild(newProduct);
+                }
             } else {
                 // If the product is a child, append it as a color circle to the parent
                 let parentElement = document.querySelector(`[data-id="${product.parent_id}"]`);
@@ -81,14 +83,15 @@ const addDataToHTML = () => {
 
 
 
-
-    listProductHTML.addEventListener('click', (event) => {
-        let positionClick = event.target;
-        if(positionClick.classList.contains('addCart')){
-            let id_product = positionClick.parentElement.dataset.id;
-            addToCart(id_product);
-        }
-    })
+    if (listProductHTML){
+        listProductHTML.addEventListener('click', (event) => {
+            let positionClick = event.target;
+            if(positionClick.classList.contains('addCart')){
+                let id_product = positionClick.parentElement.dataset.id;
+                addToCart(id_product);
+            }
+        })
+    }
 const addToCart = (product_id) => {
     let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
     if(cart.length <= 0){
@@ -180,6 +183,7 @@ const changeQuantityCart = (product_id, type) => {
 }
 
 const initApp = () => {
+    console.log(listProductHTML)
     // get data product
     fetch('/api/hats')
     .then(response => response.json())
@@ -191,6 +195,7 @@ const initApp = () => {
         // get data cart from memory
         if(localStorage.getItem('cart')){
             cart = JSON.parse(localStorage.getItem('cart'));
+            console.log("cart", cart)
             addCartToHTML();
         }
     })
