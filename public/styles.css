@@ -135,7 +135,6 @@ h1 {
         top: 0;
         right: 0;
         left: 0;
-        transform: none; /* No sliding on mobile */
         transition: opacity 0.5s ease; /* Opacity transition for appearance */
     }
 
@@ -307,17 +306,21 @@ header{
 .listProduct .item img {
     width: 150px; /* or any size you prefer */
     height: 150px;
-    object-fit: cover; /* ensures the image covers the specified dimensions */
-    border-radius: 10px; /* optional: gives the images slightly rounded corners */
+    object-fit: contain; /* ensures the image covers the specified dimensions */
+    border-radius: 5%; /* optional: gives the images slightly rounded corners */
+    box-shadow: 0 8px 0px rgba(0, 0, 0, 0.1); /* Bottom shadow */
+    width: 100%; /* or any size you prefer */
 }
 .listProduct{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 .listProduct .item{
-    background-color: #EEEEE6;
-    padding: 20px;
+    background-color: white;
+    padding-left: 0px;
+    padding-right: 10px;
+    padding-bottom: 10px;
     border-radius: 20px;
 }
 .listProduct .item h2{
@@ -348,7 +351,7 @@ header{
     bottom: 0;
     display: grid;
     grid-template-rows: 70px 1fr 70px;
-    transition: .5s;
+    transition: .3s;
 }
 body.showCart .cartTab{
     right: 0;
@@ -459,4 +462,36 @@ body.showCart .container{
     cursor: pointer;
     margin: 0px;
     border: 2px solid #fff; /* Optional: Add border for better visibility */
+}
+
+/* Mobile specific styles for the cart */
+@media only screen and (max-width: 768px) {
+   
+
+    .cartTab {
+        width: 100vw; /* Full screen width on mobile */
+        right: -100vw; /* Start off-screen */
+    }
+
+    body.showCart .cartTab {
+        transform: translateX(0); /* Slide to full visibility */
+    }
+
+    body.showCart .container {
+        transform: none; /* Keep content centered on mobile */
+    }
+
+@media only screen and (max-width: 768px) {
+    .listProduct {
+        grid-template-columns: repeat(2, 1fr); /* Adjust number of columns for mobile */
+        gap: 2px;
+    }
+    .listProduct .item img {
+        width: 100%; /* or any size you prefer */
+        height: 50%;
+        object-fit: contain; /* ensures the image covers the specified dimensions */ 
+        box-shadow: 0 8px 0px rgba(0, 0, 0, 0.1); /* Bottom shadow */
+        gap: 2px;
+    }
+}
 }
